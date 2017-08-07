@@ -59,7 +59,7 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& OutHitLocation) cons
 	/// Find xhair position
 	GetViewportSize(ViewportSizeX, ViewportSizeY);
 	auto ScreenLocation = FVector2D(ViewportSizeX * CrosshairXLocation, ViewportSizeY * CrosshairYLocation);
-	UE_LOG(LogTemp, Warning, TEXT("Screen location is %s"), *ScreenLocation.ToString());
+	//UE_LOG(LogTemp, Warning, TEXT("Screen location is %s"), *ScreenLocation.ToString());
 
 	/// de-project screen position of xhair to world direction
 	if (GetLookDirection(ScreenLocation, LookDirection))

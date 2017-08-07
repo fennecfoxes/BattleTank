@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TankAimingComponent.h"
-
+#include "TankBarrel.h"
 
 // Sets default values for this component's properties
 UTankAimingComponent::UTankAimingComponent()
@@ -14,27 +14,50 @@ UTankAimingComponent::UTankAimingComponent()
 }
 
 
-// Called when the game starts
-void UTankAimingComponent::BeginPlay()
+void UTankAimingComponent::SetBarrelReference(UTankBarrel * BarrelToSet)
 {
-	Super::BeginPlay();
-
-	// ...
-	
+	Barrel = BarrelToSet;
 }
 
-
-// Called every frame
-void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 {
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+	FVector OutLaunchVelocity;
+	FVector StartLocation;
 
-	// ...
-}
+	// Check if barrel reference is set
+	if (!Barrel)
+	{
+		return;
+	}
 
-void UTankAimingComponent::AimAt(FVector HitLocation)
-{
+	// Find end of barrel
+	StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
+
+	// For use of logging
 	auto TankName = GetOwner()->GetName();
-	UE_LOG(LogTemp, Warning, TEXT("Tank %s aiming at %s"), *TankName, *HitLocation.ToString());
+	auto BarrelLocation = Barrel->GetComponentLocation();
+
+	// Calculate OutLaunchVelocity
+	bool bHaveAimSolution = UGameplayStatics::SuggestProjectileVelocity(this, OutLaunchVelocity, StartLocation, HitLocation, LaunchSpeed, 
+																			false, 0.0f, 0.0f, ESuggestProjVelocityTraceOption::DoNotTrace);
+	if (bHaveAimSolution)
+	{
+		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
+		//UE_LOG(LogTemp, Warning, TEXT("Tank %s aiming at %s with barrel direction %s with launch speed %f"), *TankName, *HitLocation.ToString(), *AimDirection.ToString(), LaunchSpeed);
+
+		MoveBarrelTowards(AimDirection);
+	}
 }
 
+void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
+{
+	// Work-out difference between current barrel direction and aim direction
+	auto BarrelRotation = Barrel->GetForwardVector().Rotation(); /// Current barrel rotation (roll pitch yaw)
+	auto AimRotation = AimDirection.Rotation(); /// barrel rotation to aim to
+	auto DeltaRotator = AimRotation - BarrelRotation;
+
+	auto TankName = GetOwner()->GetName();
+	//UE_LOG(LogTemp, Warning, TEXT("Tank %s barrel rotation aiming %s"), *TankName, *AimRotation.ToString());
+
+	Barrel->Elevate(5);
+}
