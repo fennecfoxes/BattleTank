@@ -44,5 +44,5 @@ private:
 
 	// Projectile speed
 	UPROPERTY(EditAnywhere, Category = Firing)
-	float LaunchSpeed = 100000; // TODO find sensible default
+	float LaunchSpeed = 40000;
 };
