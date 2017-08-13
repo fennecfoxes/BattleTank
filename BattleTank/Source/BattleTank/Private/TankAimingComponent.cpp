@@ -2,6 +2,7 @@
 
 #include "TankAimingComponent.h"
 #include "TankBarrel.h"
+#include "TankTurret.h"
 
 // Sets default values for this component's properties
 UTankAimingComponent::UTankAimingComponent()
@@ -16,7 +17,22 @@ UTankAimingComponent::UTankAimingComponent()
 
 void UTankAimingComponent::SetBarrelReference(UTankBarrel * BarrelToSet)
 {
+	if (!BarrelToSet)
+	{
+		return;
+	}
+
 	Barrel = BarrelToSet;
+}
+
+void UTankAimingComponent::SetTurretReference(UTankTurret* TurretToSet)
+{
+	if (!TurretToSet)
+	{
+		return;
+	}
+
+	Turret = TurretToSet;
 }
 
 void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
@@ -24,8 +40,13 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 	FVector OutLaunchVelocity;
 	FVector StartLocation;
 
-	// Check if barrel reference is set
+	// Check if turret and barrel reference is set
 	if (!Barrel)
+	{
+		return;
+	}
+
+	if (!Turret)
 	{
 		return;
 	}
@@ -45,8 +66,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
 		//UE_LOG(LogTemp, Warning, TEXT("Tank %s aiming at %s with barrel direction %s with launch speed %f"), *TankName, *HitLocation.ToString(), *AimDirection.ToString(), LaunchSpeed);
 
-		MoveBarrelTowards(AimDirection);
-
+		MoveBarrelTurretTowards(AimDirection);
 		// LOG
 		auto time = GetWorld()->GetTimeSeconds();
 		UE_LOG(LogTemp, Warning, TEXT("%f: Barrel elevate called"), time);
@@ -59,7 +79,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 	}
 }
 
-void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
+void UTankAimingComponent::MoveBarrelTurretTowards(FVector AimDirection)
 {
 	// Work-out difference between current barrel direction and aim direction
 	auto BarrelRotation = Barrel->GetForwardVector().Rotation(); /// Current barrel rotation (roll pitch yaw)
@@ -69,5 +89,6 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	auto TankName = GetOwner()->GetName();
 	//UE_LOG(LogTemp, Warning, TEXT("Tank %s barrel rotation aiming %s"), *TankName, *AimRotation.ToString());
 
-	Barrel->Elevate(5);
+	Barrel->Elevate(DeltaRotator.Pitch);
+	Turret->Rotate(DeltaRotator.Yaw);
 }

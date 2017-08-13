@@ -8,6 +8,7 @@
 
 // Forward declarations
 class UTankBarrel;
+class UTankTurret;
 class UTankAimingComponent;
 
 UCLASS()
@@ -36,6 +37,10 @@ private:
 	// Sets barrel reference in tankaimingcomponent
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetBarrelReference(UTankBarrel* BarrelToSet);
+
+	// Sets turret reference in tankaimingcomponent
+	UFUNCTION(BlueprintCallable, Category = Setup)
+	void SetTurretReference(UTankTurret * TurretToSet);
 
 	// Projectile speed
 	UPROPERTY(EditAnywhere, Category = Firing)
