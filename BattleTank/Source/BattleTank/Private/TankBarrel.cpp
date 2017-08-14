@@ -15,7 +15,7 @@ void UTankBarrel::Elevate(float RelativeSpeed)
 
 	/// Restrict elevation based on min and max elevation degrees
 	auto NewElevation = FMath::Clamp<float>(RawNewElevation, MinElevationDegrees, MaxElevationDegrees);
-	UE_LOG(LogTemp, Warning, TEXT("Barrel RawNewElevation: %f"), NewElevation);
+	//UE_LOG(LogTemp, Warning, TEXT("Barrel RawNewElevation: %f"), NewElevation);
 
 	SetRelativeRotation(FRotator(NewElevation, 0, 0));
 }

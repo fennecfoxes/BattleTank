@@ -41,6 +41,10 @@ private:
 	// Sets turret reference in tankaimingcomponent
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetTurretReference(UTankTurret * TurretToSet);
+	
+	// Fire projectile
+	UFUNCTION(BlueprintCallable, Category = Setup)
+	void Fire();
 
 	// Projectile speed
 	UPROPERTY(EditAnywhere, Category = Firing)

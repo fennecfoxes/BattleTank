@@ -12,7 +12,7 @@ void UTankTurret::Rotate(float RelativeSpeed)
 	/// Get new elevation given currentn elevation and elevation change
 	auto NewRotation = RelativeRotation.Yaw + RotationChange;
 
-	UE_LOG(LogTemp, Warning, TEXT("Barrel NewRotation: %f"), NewRotation);
+	//UE_LOG(LogTemp, Warning, TEXT("Barrel NewRotation: %f"), NewRotation);
 
 	SetRelativeRotation(FRotator(0, NewRotation, 0));
 }

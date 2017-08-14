@@ -69,13 +69,13 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 		MoveBarrelTurretTowards(AimDirection);
 		// LOG
 		auto time = GetWorld()->GetTimeSeconds();
-		UE_LOG(LogTemp, Warning, TEXT("%f: Barrel elevate called"), time);
+		//UE_LOG(LogTemp, Warning, TEXT("%f: Barrel elevate called"), time);
 	}
 	else
 	{
 		// LOG
 		auto time = GetWorld()->GetTimeSeconds();
-		UE_LOG(LogTemp, Warning, TEXT("%f: No aim solve found"), time);
+		//UE_LOG(LogTemp, Warning, TEXT("%f: No aim solve found"), time);
 	}
 }
 
