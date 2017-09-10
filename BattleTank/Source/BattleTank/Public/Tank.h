@@ -24,6 +24,10 @@ public:
 	// Aims tank at given location
 	void AimAt(FVector HitLocation);
 
+	// Fire projectile
+	UFUNCTION(BlueprintCallable, Category = Setup)
+	void Fire();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -42,18 +46,21 @@ private:
 	// Sets turret reference in tankaimingcomponent
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetTurretReference(UTankTurret * TurretToSet);
-	
-	// Fire projectile
-	UFUNCTION(BlueprintCallable, Category = Setup)
-	void Fire();
-
-	// Projectile speed
-	UPROPERTY(EditAnywhere, Category = Firing)
-	float LaunchSpeed = 40000;
 
 	// Projectile
-	UPROPERTY(EditAnywhere, Category = Setup)
+	UPROPERTY(EditDefaultsOnly, Category = Setup)
 	TSubclassOf<AProjectile> ProjectileBlueprint;
 
+	// Projectile speed
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
+	float LaunchSpeed = 40000;
+
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
+	float ReloadTimeInSec = 3;
+
 	UTankBarrel* Barrel = nullptr;
+
+	
+	
+	double LastFireTime = 0;
 };
