@@ -21,4 +21,7 @@ private:
 	void BeginPlay() override;
 	void Tick(float DeltaTime) override;
 	
+	// How close can the AI tank get
+	UFUNCTION(BlueprintCallable, Category = Input)
+	float AcceptanceRadius = 3000;
 };
