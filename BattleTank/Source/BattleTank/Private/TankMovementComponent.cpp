@@ -22,8 +22,11 @@ void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool
 	auto TankForward = GetOwner()->GetActorForwardVector().GetSafeNormal();
 	auto AIForwardIntention = MoveVelocity.GetSafeNormal();
 
-	//UE_LOG(LogTemp, Warning, TEXT("%s: moving to %s"), *TankName, *MoveVelocityString);
-	IntendMoveForward(FVector::DotProduct(TankForward, AIForwardIntention));
+	auto RightThrow = FVector::DotProduct(TankForward, AIForwardIntention);
+	auto ForwardThrow = FVector::CrossProduct(TankForward, AIForwardIntention).Z;
+
+	IntendMoveForward(ForwardThrow);
+	IntendTurnRight(RightThrow);
 }
 
 void UTankMovementComponent::IntendMoveForward(float Throw)
@@ -36,8 +39,6 @@ void UTankMovementComponent::IntendMoveForward(float Throw)
 
 	LeftTrack->SetThrottle(Throw);
 	RightTrack->SetThrottle(Throw);
-
-	// TODO - prevent double speed due to due control use
 }
 
 void UTankMovementComponent::IntendTurnRight(float Throw)
