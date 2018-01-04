@@ -34,6 +34,7 @@ protected:
 	virtual void BeginPlay() override;
 
 	// Aiming component
+	UPROPERTY(BlueprintReadOnly)
 	UTankAimingComponent* TankAimingComponent = nullptr;
 
 	// Movement component

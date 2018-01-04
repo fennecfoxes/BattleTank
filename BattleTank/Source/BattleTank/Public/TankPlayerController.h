@@ -17,12 +17,14 @@ class BATTLETANK_API ATankPlayerController : public APlayerController
 {
 	GENERATED_BODY()
 	
+protected:
+	// Find and return tank that is being controlled
+	UFUNCTION(BlueprintCallable, Category = Setup)
+	ATank* GetControlTank() const;
+
 private:
 	virtual void Tick(float DeltaTime) override;
 	virtual void BeginPlay() override;
-
-	// Find and return tank that is being controlled
-	ATank* GetControlTank() const;
 
 	// Aim tank at xhair location
 	void AimTowardsCrosshair();
