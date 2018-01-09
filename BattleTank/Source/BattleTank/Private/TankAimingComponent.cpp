@@ -26,12 +26,12 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 	FVector StartLocation;
 
 	// Check if turret and barrel reference is set
-	if (!Barrel)
+	if (!ensure(Barrel))
 	{
 		return;
 	}
 
-	if (!Turret)
+	if (!ensure(Turret))
 	{
 		return;
 	}
@@ -66,12 +66,12 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 
 void UTankAimingComponent::MoveBarrelTurretTowards(FVector AimDirection)
 {
-	if (!Barrel)
+	if (!ensure(Barrel))
 	{
 		return;
 	}
 
-	if (!Turret)
+	if (!ensure(Turret))
 	{
 		return;
 	}

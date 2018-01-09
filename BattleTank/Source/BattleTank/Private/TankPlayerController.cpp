@@ -9,7 +9,7 @@ void ATankPlayerController::BeginPlay()
 	Super::BeginPlay();
 
 	auto AimingComponent = GetControlTank()->FindComponentByClass<UTankAimingComponent>();
-	if (AimingComponent)
+	if (ensure(AimingComponent))
 	{
 		FoundAimingComponent(AimingComponent);
 	}
@@ -35,7 +35,7 @@ ATank* ATankPlayerController::GetControlTank() const
 // Tell tank to aim towards crosshair
 void ATankPlayerController::AimTowardsCrosshair()
 {
-	if (!GetControlTank())
+	if (!ensure(GetControlTank()))
 	{
 		UE_LOG(LogTemp, Warning, TEXT("TankPlayerController not possessing a tank, cannot aim towards crosshair"));
 		return;
