@@ -39,6 +39,8 @@ protected:
 	UTankMovementComponent* TankMovementComponent = nullptr;
 
 private:
+	virtual void BeginPlay() override;
+
 	// Projectile
 	UPROPERTY(EditDefaultsOnly, Category = Setup)
 	TSubclassOf<AProjectile> ProjectileBlueprint;
