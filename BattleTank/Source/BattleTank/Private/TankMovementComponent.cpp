@@ -5,7 +5,7 @@
 
 void UTankMovementComponent::Initialize(UTankTrack* LeftTrackToSet, UTankTrack* RightTrackToSet)
 {
-	if (!ensure(LeftTrack && RightTrack))
+	if (!LeftTrackToSet || !RightTrackToSet)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("TankMovementComponent: Left or right track to set not set!"));
 		return;
@@ -31,7 +31,7 @@ void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool
 
 void UTankMovementComponent::IntendMoveForward(float Throw)
 {
-	if (!ensure(LeftTrack && RightTrack))
+	if (!LeftTrack || !RightTrack)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("TankMovementComponent: MoveForward Left or right track to set not set!"));
 		return;
@@ -43,7 +43,7 @@ void UTankMovementComponent::IntendMoveForward(float Throw)
 
 void UTankMovementComponent::IntendTurnRight(float Throw)
 {
-	if (!ensure(LeftTrack && RightTrack))
+	if (!LeftTrack || !RightTrack)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("TankMovementComponent: MoveRight Left or right track to set not set!"));
 		return;

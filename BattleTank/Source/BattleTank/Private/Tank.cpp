@@ -4,24 +4,19 @@
 #include "TankBarrel.h"
 #include "Projectile.h"
 #include "TankAimingComponent.h"
-#include "TankMovementComponent.h"
 
 // Sets default values
 ATank::ATank()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
-
-	auto TankName = GetName();
-	UE_LOG(LogTemp, Warning, TEXT("%s SHEEL: Tank C++ construct"), *TankName);
 }
 
 void ATank::BeginPlay()
 {
 	Super::BeginPlay(); // needed for BP begin play to run!
 
-	auto TankName = GetName();
-	UE_LOG(LogTemp, Warning, TEXT("%s SHEEL: Tank C++ BeginPlay"), *TankName)
+	TankAimingComponent = FindComponentByClass<UTankAimingComponent>();
 }
 
 void ATank::AimAt(FVector HitLocation)
@@ -36,7 +31,7 @@ void ATank::AimAt(FVector HitLocation)
 
 void ATank::Fire()
 {
-	if (!ensure(Barrel))
+	if(!ensure(Barrel))
 	{
 		return;
 	}

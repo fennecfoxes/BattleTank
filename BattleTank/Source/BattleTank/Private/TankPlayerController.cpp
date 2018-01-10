@@ -15,7 +15,7 @@ void ATankPlayerController::BeginPlay()
 	}
 	else
 	{
-		UE_LOG(LogTemp, Warning, TEXT("TankPlayerController cannot find aiming component at begin play"));
+		return;
 	}
 }
 
