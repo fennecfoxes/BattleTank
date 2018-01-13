@@ -15,6 +15,12 @@ UTankAimingComponent::UTankAimingComponent()
 	// ...
 }
 
+void UTankAimingComponent::BeginPlay()
+{
+	// So that first fire is after initial reload
+	LastFireTime = FPlatformTime::Seconds();
+}
+
 void UTankAimingComponent::Initialize(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet)
 {
 	Barrel = BarrelToSet;
@@ -89,6 +95,18 @@ void UTankAimingComponent::MoveBarrelTurretTowards(FVector AimDirection)
 	Turret->Rotate(DeltaRotator.Yaw);
 }
 
+void UTankAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction)
+{
+	UE_LOG(LogTemp, Warning, TEXT("Aiming Component ticking"));
+
+	if (((FPlatformTime::Seconds()) - LastFireTime) > ReloadTimeInSec)
+	{
+		FiringState = EFiringStatus::Reloading;
+	}
+
+	// TODO handle aiming and locked states
+}
+
 void UTankAimingComponent::Fire()
 {
 	if (!ensure(Barrel && ProjectileBlueprint))
@@ -96,9 +114,7 @@ void UTankAimingComponent::Fire()
 		return;
 	}
 
-	bool isReloaded = ((FPlatformTime::Seconds()) - LastFireTime) > ReloadTimeInSec;
-
-	if (isReloaded)
+	if (FiringState != EFiringStatus::Reloading)
 	{
 		auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, Barrel->GetSocketLocation(FName("Projectile")), Barrel->GetSocketRotation(FName("Projectile")));
 		Projectile->LaunchProjectile(LaunchSpeed);
