@@ -59,6 +59,8 @@ private:
 	// Tick to change xhair color when reloading/aiming/etc
 	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
 
+	bool IsBarrelMoving();
+
 	UPROPERTY(EditDefaultsOnly, Category = Firing)
 	float LaunchSpeed = 40000;
 
@@ -70,4 +72,6 @@ private:
 	float ReloadTimeInSec = 3;
 
 	double LastFireTime = 0;
+
+	FVector AimDirection = FVector(0.0f, 0.0f, 0.0f);
 };
