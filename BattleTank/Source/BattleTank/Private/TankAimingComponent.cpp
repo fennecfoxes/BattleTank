@@ -97,8 +97,6 @@ void UTankAimingComponent::MoveBarrelTurretTowards(FVector AimDirection)
 
 void UTankAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Aiming Component ticking"));
-
 	if (((FPlatformTime::Seconds()) - LastFireTime) < ReloadTimeInSec)
 	{
 		FiringState = EFiringStatus::Reloading;
@@ -122,6 +120,7 @@ void UTankAimingComponent::Fire()
 
 	if (FiringState != EFiringStatus::Reloading)
 	{
+		UE_LOG(LogTemp, Warning, TEXT("Firing!"));
 		auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, Barrel->GetSocketLocation(FName("Projectile")), Barrel->GetSocketRotation(FName("Projectile")));
 		Projectile->LaunchProjectile(LaunchSpeed);
 		LastFireTime = FPlatformTime::Seconds();
