@@ -120,7 +120,6 @@ void UTankAimingComponent::Fire()
 
 	if (FiringState != EFiringStatus::Reloading)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Firing!"));
 		auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, Barrel->GetSocketLocation(FName("Projectile")), Barrel->GetSocketRotation(FName("Projectile")));
 		Projectile->LaunchProjectile(LaunchSpeed);
 		LastFireTime = FPlatformTime::Seconds();

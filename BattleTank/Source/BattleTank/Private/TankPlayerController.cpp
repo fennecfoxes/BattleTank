@@ -28,6 +28,11 @@ void ATankPlayerController::Tick(float DeltaTime)
 // Tell tank to aim towards crosshair
 void ATankPlayerController::AimTowardsCrosshair()
 {
+	if (!GetPawn())
+	{
+		return;
+	}
+
 	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	if (!ensure(AimingComponent))
 	{
