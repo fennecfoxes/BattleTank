@@ -2,7 +2,6 @@
 
 #include "Projectile.h"
 
-
 // Sets default values
 AProjectile::AProjectile()
 {
@@ -39,6 +38,7 @@ void AProjectile::BeginPlay()
 
 void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
 {
+	// Remove projectile
 	LaunchBlast->Deactivate();
 	ImpactBlast->Activate();
 	ExplosionForce->FireImpulse();
@@ -46,6 +46,10 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, U
 	SetRootComponent(ImpactBlast);
 	CollisionMesh->DestroyComponent();
 
+	// Apply damage
+	UGameplayStatics::ApplyRadialDamage(this, ProjectileDamage, GetActorLocation(), ExplosionForce->Radius, UDamageType::StaticClass(), TArray<AActor*>());
+
+	// Eventually free projectile memory
 	FTimerHandle TimerHandle;
 	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &AProjectile::OnTimerExpire, DestroyDelay, false);
 }
